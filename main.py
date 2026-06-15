@@ -20,7 +20,7 @@ def send_telegram(msg):
 
 def get_candles(pair):
     symbol = pair.replace("/", "")
-    url = f"https://api.twelvedata.com/time_series?symbol={symbol}&interval=1min&outputsize=50&apikey={TD_API_KEY}"
+    url = f"https://api.twelvedata.com/time_series?symbol={symbol}&interval=5min&outputsize=30&apikey={TD_API_KEY}"
     r = requests.get(url).json()
     df = pd.DataFrame(r["values"])
     df = df.rename(columns={"open":"open","high":"high","low":"low","close":"close"})
@@ -79,7 +79,7 @@ while True:
                     write_signal(signal, pair)
             except Exception as e:
                 print(f"Error {pair}: {e}")
-            time.sleep(10)
+            time.sleep(60)
     else:
         print(f"Fuera de sesión NY - {now.strftime('%H:%M')} UTC")
         time.sleep(45)
